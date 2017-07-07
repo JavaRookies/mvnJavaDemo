@@ -3,6 +3,7 @@ package nuist.dymvn.InterfaceTest;
 /**
  * Created by dy on 2017/7/6.
  * 接口是可以多层实现的，且支持接口的多层继承
+ * 类实现接口，必须实现该接口、以及所有父接口的所有的方法
  */
 interface Father{
     int age = 40;
