@@ -25,6 +25,15 @@ public class ToStringTest {
         System.out.println(stu.equals(stu3));
         System.out.println(stu.age == stu3.age);                    //引用类型地址值相同，其对应的对象也相同，一变俱变（不同于clone）
 
+        StudentObject stu2 = stu.clone();
+        stu2.setAge(16);
+        System.out.println(stu2.age + stu.age);                    //clone方法，不同于地址值赋值，自身改变不会影响原有的对象
+
+        Object obj = stu.clone();
+        StudentObject stu4 = (StudentObject)obj;
+        System.out.println(stu4.age);
+
+
     }
 }
 class StudentObject{
@@ -84,6 +93,13 @@ class StudentObject{
         return name.equals(that.name);
 
     }
+    public StudentObject clone(){
+        int age = this.age;
+        String name = this.name;
+        StudentObject studentObject = new StudentObject(age,name);
+        return studentObject;
+    }
+
 
 //    @Override
 //    public int hashCode() {
