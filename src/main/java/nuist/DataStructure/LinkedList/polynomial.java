@@ -2,8 +2,13 @@ package nuist.DataStructure.LinkedList;
 
 /**
  * Created by dy on 2017/7/20.
+ * 使用链表进行多项式运算，
+ * 在链表中加入头指针和当前指针项
  */
 public class polynomial {
+    /*
+    **创建子节点类
+     */
     static class PloyNode {
 
         double coef;
@@ -38,18 +43,6 @@ public class polynomial {
             return this;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof PloyNode)) return false;
-
-            PloyNode ployNode = (PloyNode) o;
-
-            if (Double.compare(ployNode.coef, coef) != 0) return false;
-            if (ex != ployNode.ex) return false;
-            return next.equals(ployNode.next);
-        }
-
         public PloyNode(){
         }
 
@@ -57,17 +50,12 @@ public class polynomial {
             this.coef = coef;
             this.ex = ex;
         }
-        void playNode(){
-            System.out.println(this.coef + "x^" + ex);
-        }
-        PloyNode addNode(PloyNode node){
-            if (this.ex == node.ex ){
-                this.coef = this.coef + node.coef;
-            }
-            return this;
-        }
     }
 
+    /**
+    *多项式的类（链表结构实现）
+     * 头结点、当前节点、大小
+    **/
     static class PloyList{
         PloyNode head;
         PloyNode current;
@@ -79,37 +67,25 @@ public class polynomial {
         }
         void addPloyNode (PloyNode node){
             this.current.next = node;
-           // this.current.next = null;
-            this.current = this.current.next;
+            this.current = this.current.next;    //添加完成后自动移位至新节点下
             size++;
         }
-        void addPloyList (PloyList list){    //将list的当前指针开始的所有子节点依此加在最后面
-            this.current.next = list.current;
-            this.size = this.size + list.size;
-        }
 
-        int getSize(){
-            return size;
-        }
         void playList(){
             this.current = head.next;
+            StringBuilder ployNormial = new StringBuilder();
             while(!(this.current==null))
             {
-                System.out.print(this.current.getCoef() + "x^" +this.current.getEx() + "+");
+                ployNormial.append(this.current.getCoef() + "x^" +this.current.getEx() + "+");
                 this.current = this.current.next;
             }
-            System.out.println();
+            ployNormial.delete(ployNormial.length()-1,ployNormial.length());
+            System.out.println(ployNormial.toString());
         }
     }
 
-    static PloyNode addNode(PloyNode node1 ,PloyNode node2){
-        if (node1.ex == node2.ex ){
-            node1.coef = node1.coef + node2.coef;
-        }
-        return node1;
-    }
 
-    //多项式
+    //实现多项式相加
     static PloyList sumPloyNorminal(PloyList ployNorm1,PloyList ployNorm2){
         PloyList sumPloyList = new PloyList();
         ployNorm1.current = ployNorm1.head;
@@ -129,17 +105,12 @@ public class polynomial {
                 ployNorm1.current = ployNorm1.current.next;
                 ployNorm2.current = ployNorm2.current.next;
             }
-           // sumPloyList.current = sumPloyList.current.next;               //sum多想是的指针指向下一个空位
         }
         while(!(ployNorm1.current.next == null)){
-            PloyList listTemp = new PloyList();
-            listTemp.current.next = ployNorm1.current;
-            sumPloyList.addPloyList(listTemp);
+            sumPloyList.addPloyNode(ployNorm1.current);
         }
         while(!(ployNorm2.current.next == null)){
-            PloyList listTemp = new PloyList();
-            listTemp.current.next = ployNorm2.current;
-            sumPloyList.addPloyList(listTemp);
+            sumPloyList.addPloyNode(ployNorm2.current);
         }
         return sumPloyList;
     }
